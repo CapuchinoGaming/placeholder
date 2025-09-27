@@ -1,4 +1,13 @@
-
+/* Fullscreen video background */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* makes video fill screen without distortion */
+  z-index: -1;        /* push behind content */
+}
 body {
     background: url("Greek\ Banner.png") no-repeat center center fixed;
     background-size: cover;
@@ -17,13 +26,20 @@ header {
 main {
     padding: 2rem;
 }
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 1rem;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+
+/* Fullscreen overlay image */
+.overlay-image {
+  position: fixed;  /* lock to screen like video */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;       /* above video */
 }
-  
+
+.overlay-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills screen */
+  opacity: 1;     /* adjust transparency so video is visible */
+}

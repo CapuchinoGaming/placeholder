@@ -1,0 +1,29 @@
+
+body {
+    background: url("Greek\ Banner.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+header {
+  background-size: contain; /* makes it fill the area */
+  color: white;
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+main {
+    padding: 2rem;
+}
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+  

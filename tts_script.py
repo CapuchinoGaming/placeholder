@@ -16,7 +16,7 @@ def wave_file(filename, pcm, channels=1, rate=24000, sample_width=2):
         wf.setsampwidth(sample_width)
         wf.setframerate(rate)
         wf.writeframes(pcm)
-    print("> Finished setting up wave file")
+    print("> Finished setting up out.wav")
 
 # Only run this block for Gemini Developer API
 client = genai.Client(api_key=API_KEY)
@@ -42,7 +42,7 @@ data = response.candidates[0].content.parts[0].inline_data.data
 
 file_name='out.wav'
 wave_file(file_name, data) # Saves the file to current directory
-print("> File saved")
+print("> Audio saved into out.wav")
 
 # Close the sync client to release resources.
 client.close()

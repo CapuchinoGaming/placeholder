@@ -1,5 +1,5 @@
 <!--
-This .php page should runs a Python file.
+This .php page should run a Python file.
 The Python file should run a text-to-voice API to turn the "paragraph" into voice.
 In the future, I would like to have the "paragraph" be part of Python instead of being hardcoded.
 -->

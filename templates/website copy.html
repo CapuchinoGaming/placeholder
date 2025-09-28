@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<!--head, links styles and shit-->
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,8 +8,14 @@
   <title>Oracle of Olympus</title>
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/animationStyle.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Style+Script&display=swap" rel="stylesheet">
 </head>
+
+
 <body>
+  <!--IMAGES-->
   <video autoplay muted loop id="bg-video">
     <source src="static/HPS.mp4" type="video/mp4">
     Your browser does not support the video tag.
@@ -16,7 +24,12 @@
   <div class="overlay-image">
     <img src="static/Greek Banner.png" alt="Red stage curtain framing the scene">
   </div>
+  <div class="overlay-image2">
+    <img src="static/Scroll_1.png" alt="Red stage curtain framing the scene">
+  </div>
 
+
+  <!--BEGINNING PERSONA CHARACTER SELECT-->
   <section id="persona-overlay" class="card-overlay">
     <h1 class="overlay-title">Choose your guiding deity</h1>
     <div class="card-container">
@@ -35,18 +48,17 @@
     </div>
   </section>
 
+  <!--PROMPT AREA SELECTED PERSON-->
   <main id="main-interface" class="interface hidden">
     <div id="selected-persona" aria-live="polite"></div>
     <div id="response"></div>
     <div class="prompt-area">
-      <textarea id="prompt" rows="8" cols="30" placeholder="Type your question..."></textarea>
+      <textarea id="prompt" rows="8" cols="30" placeholder=""></textarea>
       <button id="send">Send</button>
     </div>
   </main>
 
-  <!--<h2>Response:</h2>
-  <div id="response"></div>
--->
+
   <!-- Gemini send and recieve -->
   <script>
     const overlay = document.getElementById("persona-overlay");
@@ -54,6 +66,8 @@
     const selectedPersonaBanner = document.getElementById("selected-persona");
     const cards = document.querySelectorAll(".persona-card");
 
+
+    //SELECTING PERSON AND CARD FADING IN AND OUT
     let selectedPersona = null;
 
     cards.forEach((card) => {
@@ -72,6 +86,7 @@
       });
     });
 
+    //BUTTON CLICK SEND
     document.getElementById("send").addEventListener("click", async () => {
       const prompt = document.getElementById("prompt").value.trim();
       if (!prompt) {
@@ -96,7 +111,6 @@
       const resultArray = (data.result || "").split(/[.,]\s*/).filter(Boolean);
       console.log("Result array:", resultArray);
 
-      //document.getElementById("response").textContent = data.result || data.error;
       document.dispatchEvent(new CustomEvent("ResultReady", { detail: resultArray }));
     });
   </script>

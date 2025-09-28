@@ -34,7 +34,15 @@ body {
   height: 100%;
   object-fit: cover;
 }
-
+.overlay-image2 img {
+  width: 100%;
+  position: fixed;
+  bottom: -55px;
+  left: 0;
+  height: auto;
+  max-height: 400px;   /* adjust size to your liking */
+  
+}
 .card-overlay {
   position: fixed;
   top: 0;
@@ -107,7 +115,15 @@ body {
   outline: none;
 }
 
-.interface {
+#send{
+  position: fixed;   /* lock it in place */
+  bottom: 30px;      /* distance from bottom */
+  left: 90%;
+  transform: translateX(-50%); /* keep it centered */
+  max-width: 800px;  /* optional, so it doesn’t span full screen */
+}
+
+/* .interface {
   position: relative;
   z-index: 2;
   width: min(680px, 90vw);
@@ -132,17 +148,28 @@ body {
 .interface.hidden {
   opacity: 0;
   pointer-events: none;
-}
+} */
 
 #selected-persona {
+  /* font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f8d27b;
+  text-align: center; */
   font-size: 1rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #f8d27b;
   text-align: center;
+
+  position: fixed;
+  top: 140px;      /* distance from the top edge */
+  left: 50%;
+  transform: translateX(-50%); /* centers it horizontally */
+  z-index: 1000;  /* make sure it's above background */
 }
 
-#response {
+/* #response {
   min-height: 160px;
   padding: 1.5rem;
   background: rgba(18, 18, 28, 0.85);
@@ -152,7 +179,7 @@ body {
   overflow-y: auto;
   max-height: 320px;
   font-size: 1rem;
-}
+} */
 
 .prompt-area {
   display: flex;
@@ -161,16 +188,33 @@ body {
 }
 
 textarea {
-  width: 100%;
-  min-height: 140px;
-  resize: vertical;
+  min-height: 25px;
+  resize: none;            /* removes the resize handle */
+  overflow: hidden;        /* hides the scrollbar */
   padding: 0.9rem 1.1rem;
-  font-size: 1rem;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: rgba(0, 0, 0, 0.55);
-  color: #f5f2ea;
+  font-size: 4rem;
+  background: transparent;
+  color: #000000;
+  text-align: center;
+
+  /* FONT */
+  font-family: "Style Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+
+  /* remove borders and outlines */
+  border: none;
+  outline: none;
+
+  /* positioning */
+  position: fixed;
+  bottom: 50px;
+  left: 200px;
+  right: 200px;
+  height: auto;
+  max-height: 170px;
 }
+
 
 textarea::placeholder {
   color: rgba(245, 242, 234, 0.65);

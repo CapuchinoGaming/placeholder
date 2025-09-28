@@ -1,0 +1,45 @@
+.typewriter {
+    /*SET UP*/
+    overflow: hidden;
+    border-right: 0.15em solid #ffffff; 
+    white-space: nowrap;
+    width: 0;
+
+    /*position*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+
+    /*color and animation and font*/
+    color: #ffffff;
+    animation: typing var(--duration) steps(var(--chars)) forwards,
+    caret 0.8s steps(1) infinite;
+    font-family: 'greekFont';
+  }
+
+    /* Once typing finishes, remove caret */
+    .done {
+    border-right: 0;
+    width: auto;
+    }
+
+  /*font*/
+  @font-face {
+    font-family: 'greekFont';
+    src: url('font/CaesarDressing-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+    }
+
+  /*Typing Animation*/
+  @keyframes typing {
+    to { width: calc(var(--chars) 1ch); }
+  }
+
+  /* cursor blink */
+  @keyframes blink {
+    from, to { border-color: transparent }
+    50% { border-color: #ffffff; }
+  }

@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+  <!--head and shit-->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Website</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="animationStyle.css">
 </head>
+
+<!-- background -->
 <body>
-  <video autoplay muted loop id="bg-video">
+ <video autoplay muted loop id="bg-video">
     <source src="HPS.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
+ 
   <!-- Overlay Image -->
   <div class="overlay-image">
     <img src="Greek Banner.png" alt="Overlay Image">
   </div>
 
+  <div id="output"></div>
+
+  <!-- load JS last so DOM is ready -->
+  <script src="lineByLine.js" defer></script>
 
 </body>
 </html>

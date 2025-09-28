@@ -85,10 +85,9 @@
         }, 1000);
       });
     });
-
-    //BUTTON CLICK SEND
-    document.getElementById("send").addEventListener("click", async () => {
-      const prompt = document.getElementById("prompt").value.trim();
+    //button
+    sendButton.addEventListener("click", async () => {
+      const prompt = promptField.value.trim();
       if (!prompt) {
         return;
       }

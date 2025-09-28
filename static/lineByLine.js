@@ -1,6 +1,6 @@
 let sentences = [];   // will be filled from fetch
-const typingSpeed = 120;  // ms per character
-const pauseBetween = 1200; // ms pause before next sentence
+const typingSpeed = 240;  // ms per character
+const pauseBetween = 800; // ms pause before next sentence
 const output = document.getElementById("output");
 
 let sentenceIndex = 0;

@@ -4,24 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Website</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
+
+  <!-- Background Image and Video -->
   <video autoplay muted loop id="bg-video">
-    <source src="HPS.mp4" type="video/mp4">
+    <source src="static/HPS.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
   <!-- Overlay Image -->
   <div class="overlay-image">
-    <img src="Greek Banner.png" alt="Overlay Image">
+    <img src="static/Greek Banner.png" alt="Overlay Image">
   </div>
-<h1>Ask Gemini</h1>
-  <textarea id="prompt" rows="4" cols="50" placeholder="Type your question..."></textarea><br>
+
+
+  <textarea id="prompt" rows="15" cols="50" placeholder="Type your question..."></textarea><br>
   <button id="send">Send</button>
 
   <h2>Response:</h2>
   <div id="response"></div>
 
+  <!-- Gemini send and recieve -->
   <script>
     document.getElementById("send").addEventListener("click", async () => {
       const prompt = document.getElementById("prompt").value;

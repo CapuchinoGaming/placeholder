@@ -28,22 +28,34 @@
     <img src="static/Scroll_1.png" alt="Red stage curtain framing the scene">
   </div>
 
+  <!-- Oracle prelude overlay that sets the stage before the user chooses a muse -->
+  <section id="oracle-overlay" class="overlay-panel oracle-overlay">
+    <div class="oracle-inner">
+      <h1 class="oracle-title">The Oracle Beckons</h1>
+      <p class="oracle-text">
+        I am the Oracle who tends the stage where sorrow becomes wisdom. I hold tragedies that
+        leave embers of insight for those who listen. Steel your heart traveller, and
+        when you are ready, bid me unveil the voices who wait beyond the curtain.
+      </p>
+      <button id="oracle-continue">Reveal the tales</button>
+    </div>
+  </section>
 
-  <!--BEGINNING PERSONA CHARACTER SELECT-->
-  <section id="persona-overlay" class="card-overlay">
-    <h1 class="overlay-title">Choose your guiding deity</h1>
+  <!-- Persona card overlay revealed after the oracle completes her introduction -->
+  <section id="persona-overlay" class="overlay-panel card-overlay hidden">
+    <h1 class="overlay-title">Choose your tragic tale</h1>
     <div class="card-container">
-      <button class="persona-card" data-deity="athena">
-        <h2>Athena</h2>
-        <p>Strategic wisdom, calm mentorship, razor-sharp insight.</p>
+      <button class="persona-card" data-deity="eurydice">
+        <h2>Eurydice</h2>
+        <p>Soft-spoken resilience, echoes of the underworld, love that endures.</p>
       </button>
-      <button class="persona-card" data-deity="apollo">
-        <h2>Apollo</h2>
-        <p>Radiant inspiration, poetic flair, lyrical encouragement.</p>
+      <button class="persona-card" data-deity="pandora">
+        <h2>Pandora</h2>
+        <p>Curious optimism, lessons from consequences, hope in every reply.</p>
       </button>
-      <button class="persona-card" data-deity="ares">
-        <h2>Ares</h2>
-        <p>Fiery motivation, bold challenges, relentless drive.</p>
+      <button class="persona-card" data-deity="medusa">
+        <h2>Medusa</h2>
+        <p>Fierce protection, honest clarity, strength reclaimed.</p>
       </button>
     </div>
   </section>
@@ -61,14 +73,72 @@
 
   <!-- Gemini send and recieve -->
   <script>
-    const overlay = document.getElementById("persona-overlay");
+    const oracleOverlay = document.getElementById("oracle-overlay");
+    const oracleContinueButton = document.getElementById("oracle-continue");
+    const cardOverlay = document.getElementById("persona-overlay");
     const mainInterface = document.getElementById("main-interface");
     const selectedPersonaBanner = document.getElementById("selected-persona");
     const cards = document.querySelectorAll(".persona-card");
+    const responseBox = document.getElementById("response");
+    const promptField = document.getElementById("prompt");
+    const sendButton = document.getElementById("send");
+
+    const introductionPrompts = {
+      eurydice: "Greet a new seeker softly as Eurydice. Share the opening part of your story - your love for Orpheus and the underworld - in three or four sentences, and finish by asking if they would like you to continue the tale.",
+      pandora: "Introduce yourself with bright curiosity as Pandora. In three or four sentences, begin recounting the jar, the sorrows set loose, and the hope you preserved, then ask if they would like to hear more of your story.",
+      medusa: "Welcome the visitor with composed strength as Medusa. Tell the first part of your transformation and reclaimed power in three or four sentences, and end by asking whether they wish you to continue."
+    };
 
 
     //SELECTING PERSON AND CARD FADING IN AND OUT
     let selectedPersona = null;
+
+    // Shared fade helper used to transition the oracle screen and persona cards
+    function fadeOutElement(element, callback) {
+      element.classList.remove("fade-in");
+      element.classList.add("fade-out");
+      setTimeout(() => {
+        element.classList.add("hidden");
+        element.style.display = "none";
+        if (typeof callback === "function") {
+          callback();
+        }
+      }, 900);
+    }
+
+    // Advance from the oracle narration into the persona selection cards
+    oracleContinueButton.addEventListener("click", () => {
+      fadeOutElement(oracleOverlay, () => {
+        cardOverlay.style.display = "flex";
+        cardOverlay.classList.remove("hidden");
+        cardOverlay.classList.remove("fade-out");
+        requestAnimationFrame(() => {
+          cardOverlay.classList.add("fade-in");
+          setTimeout(() => cardOverlay.classList.remove("fade-in"), 900);
+        });
+      });
+    });
+
+    async function fetchPersonaResponse(promptText) {
+      if (!selectedPersona) {
+        selectedPersonaBanner.textContent = "Select a muse to begin the conversation.";
+        return;
+      }
+
+      try {
+        const resp = await fetch("/prompt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt: promptText, persona: selectedPersona })
+        });
+
+        const data = await resp.json();
+        responseBox.innerHTML = data.result || data.error || "No response received.";
+      } catch (error) {
+        responseBox.textContent = "Your muse cannot be reached at the moment. Try again in a moment.";
+        console.error(error);
+      }
+    }
 
     cards.forEach((card) => {
       card.addEventListener("click", () => {
@@ -77,12 +147,15 @@
 
         selectedPersonaBanner.textContent = `You are now speaking with ${deityName}.`;
 
-        overlay.classList.add("fade-out");
-        setTimeout(() => {
-          overlay.style.display = "none";
+        fadeOutElement(cardOverlay, () => {
           mainInterface.classList.remove("hidden");
           mainInterface.classList.add("fade-in");
-        }, 1000);
+
+          const introPrompt = introductionPrompts[selectedPersona];
+          if (introPrompt) {
+            fetchPersonaResponse(introPrompt);
+          }
+        });
       });
     });
 

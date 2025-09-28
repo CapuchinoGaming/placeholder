@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from google import genai
 import os
+import base64
 
 app = Flask(__name__)
 
@@ -80,7 +81,9 @@ def prompt_gemini():
         API_KEY = "AIzaSyCjLWCS3pluFJUJD4znbqCNFkX2O5l2QSU"
         TTS_MODEL_ID = "gemini-2.5-flash-preview-tts"
         MALE_VOICE = "charon"
-        WOMAN_VOICE = "callirrhoe"
+        WOMAN_VOICE = "zephyr"
+        WOMAN_VOICE = "kore"
+        ORACLE_VOICE = "gacrux"
 
         # The "text" variable should be provided by Joshuan's Gemini
         prefix = "Say cheerfully: "
@@ -104,23 +107,53 @@ def prompt_gemini():
 
         # Loop through text_list
         for i, line in enumerate(text_list):
-            text_prompt = prefix + line
-
+            print(f"Entered for loop for the {i}th time")
+            
+            text_prompt = "I am the Oracle who tends the stage where sorrow becomes wisdom. I hold tragedies that leave embers of insight for those who listen. Steel your heart traveller, and when you are ready, bid me unveil the voices who wait beyond the curtain."
+            #text_prompt = prefix + line
+            
             # Call TTS model
+            print("joined prefix and line")
+            # tts_response = tts_client.models.generate_content(
+            #     model=TTS_MODEL_ID,
+            #     contents=text_prompt,
+            #     config=types.GenerateContentConfig(
+            #         response_modalities=["AUDIO"],
+            #         speech_config=types.SpeechConfig(
+            #             voice_config=types.VoiceConfig(
+            #                 prebuilt_voice_config=types.PrebuiltVoiceConfig(
+            #                     voice_name="kore",
+            #                 )
+            #             )
+            #         ),
+            #     ),
+            # )
+
+            # tts_response = tts_client.models.generate_content(
+            #     model=TTS_MODEL_ID,
+            #     contents=[types.Content(
+            #     role="user",
+            #     parts=[types.Part.from_text(text_prompt)]
+            # )],
+
             tts_response = tts_client.models.generate_content(
                 model=TTS_MODEL_ID,
-                contents=text_prompt,
-                config=types.GenerateContentConfig(
-                    response_modalities=["AUDIO"],
-                    speech_config=types.SpeechConfig(
-                        voice_config=types.VoiceConfig(
-                            prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                                voice_name=MALE_VOICE,
-                            )
+                contents=[types.Content(
+                    role="user",
+                    parts=[types.Part.from_text(text_prompt)]
+                )],
+            config=types.GenerateContentConfig(
+                response_modalities=["AUDIO"],
+                speech_config=types.SpeechConfig(
+                    voice_config=types.VoiceConfig(
+                        prebuilt_voice_config=types.PrebuiltVoiceConfig(
+                            voice_name="kore",
                         )
-                    ),
+                    )
+                ),
                 ),
             )
+
             print(f"> Gemini response {i} generated")
 
             # Extract audio data
@@ -179,4 +212,4 @@ def prompt_gemini():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader = False)

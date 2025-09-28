@@ -37,7 +37,7 @@
   /*font*/
   @font-face {
     font-family: 'greekFont';
-    src: url('font/CaesarDressing-Regular.ttf');
+    src: url('./font/CaesarDressing-Regular.ttf');
     font-weight: normal;
     font-style: normal;
     }

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Website</title>
   <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="static/animationStyle.css">
 </head>
 <body>
 
@@ -22,9 +23,9 @@
   <textarea id="prompt" rows="15" cols="50" placeholder="Type your question..."></textarea><br>
   <button id="send">Send</button>
 
-  <h2>Response:</h2>
+  <!--<h2>Response:</h2>
   <div id="response"></div>
-
+-->
   <!-- Gemini send and recieve -->
   <script>
     document.getElementById("send").addEventListener("click", async () => {
@@ -36,9 +37,20 @@
       });
 
       const data = await resp.json();
-      document.getElementById("response").textContent = data.result || data.error;
+
+      //THIS IS THE RESULT
+      //NEED TO TAKE THIS RESULT, SPLIT INTO ARRAY
+      const resultArray = (data.result || "").split(/[.,]\s*/).filter(Boolean);
+      console.log("Result array:", resultArray);
+
+      //document.getElementById("response").textContent = data.result || data.error;
+      document.dispatchEvent(new CustomEvent("ResultReady", { detail: resultArray }));
     });
   </script>
+  
+  <div id="output"></div>
+  <!-- load JS last so DOM is ready -->
+  <script src="static/lineByLine.js" defer></script>
 
 </body>
 </html>

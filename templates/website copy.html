@@ -30,6 +30,7 @@
     <script>
       document.getElementById("send").addEventListener("click", async () => {
         const prompt = document.getElementById("prompt").value;
+        const textarea = document.getElementById("prompt");
         const resp = await fetch("/prompt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -38,6 +39,8 @@
 
         const data = await resp.json();
         document.getElementById("response").innerHTML = data.result || data.error;
+
+        textarea.value = "";
       });
     </script>
 

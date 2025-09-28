@@ -112,8 +112,6 @@ def prompt_gemini():
             
             text_prompt = prefix + line
 
-            text_prompt = "Greet a new seeker softly as Eurydice. Share the opening part of your story - your love for Orpheus and the underworld - in three or four sentences, and finish by asking if they would like you to continue the tale."
-            
             # Call TTS model
             try:
                 tts_response = tts_client.models.generate_content(
@@ -132,7 +130,7 @@ def prompt_gemini():
                 )
                 print(f"> Gemini response {i} generated")
             except Exception as e:
-                print("❌ Error during TTS generate_content call:", str(e))
+                print("Error during TTS generate_content call:", str(e))
                 print(traceback.format_exc())
                 tts_response = None  # optional: so code after this can check if it's None
 

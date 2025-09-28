@@ -43,10 +43,7 @@ body {
   max-height: 400px;   /* adjust size to your liking */
   
 }
-
-
-/* Shared overlay scaffolding used by the oracle intro and the persona cards */
-.overlay-panel {
+.card-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -57,69 +54,18 @@ body {
   justify-content: center;
   align-items: center;
   gap: 2rem;
-  padding: clamp(2rem, 6vw, 3rem);
+  padding: 2rem;
   text-align: center;
-  background: rgba(6, 6, 10, 0.78);
+  background: rgba(6, 6, 10, 0.75);
   backdrop-filter: blur(4px);
   z-index: 4;
   opacity: 1;
-  visibility: visible;
   transition: opacity 0.9s ease;
 }
 
-.overlay-panel.hidden {
+.card-overlay.fade-out {
   opacity: 0;
   pointer-events: none;
-  visibility: hidden;
-}
-
-.overlay-panel.fade-out {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.overlay-panel.fade-in {
-  opacity: 1;
-  pointer-events: auto;
-  visibility: visible;
-}
-
-/* Oracle-specific container and typography */
-.oracle-overlay .oracle-inner {
-  max-width: min(640px, 88vw);
-  padding: clamp(1.8rem, 4vw, 2.6rem);
-  border-radius: 26px;
-  background: rgba(12, 12, 22, 0.82);
-  border: 1px solid rgba(255, 215, 160, 0.45);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.52);
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.oracle-title {
-  margin: 0;
-  font-size: clamp(2.4rem, 5vw, 3.3rem);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  text-shadow: 0 0 35px rgba(255, 206, 140, 0.7);
-}
-
-.oracle-text {
-  margin: 0;
-  font-size: clamp(1.05rem, 2.5vw, 1.2rem);
-  line-height: 1.9;
-  color: #f3e9d5;
-}
-
-#oracle-continue {
-  align-self: center;
-  padding-inline: clamp(1.8rem, 4vw, 2.8rem);
-}
-
-.card-overlay {
-  gap: 2rem;
 }
 
 .overlay-title {
@@ -275,6 +221,7 @@ textarea::placeholder {
 }
 
 button {
+  align-self: flex-end;
   cursor: pointer;
   padding: 0.65rem 1.6rem;
   border-radius: 999px;
@@ -291,10 +238,6 @@ button:focus-visible {
   transform: translateY(-2px);
   box-shadow: 0 12px 20px rgba(255, 138, 89, 0.35);
   outline: none;
-}
-
-.prompt-area button {
-  align-self: flex-end;
 }
 
 @media (max-width: 768px) {

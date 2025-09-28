@@ -3,37 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Website</title>
+  <title>Oracle of Olympus</title>
   <link rel="stylesheet" href="static/style.css">
   <link rel="stylesheet" href="static/animationStyle.css">
 </head>
 <body>
-
-  <!-- Background Image and Video -->
   <video autoplay muted loop id="bg-video">
     <source src="static/HPS.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
-  <!-- Overlay Image -->
+
   <div class="overlay-image">
-    <img src="static/Greek Banner.png" alt="Overlay Image">
+    <img src="static/Greek Banner.png" alt="Red stage curtain framing the scene">
   </div>
 
+  <section id="persona-overlay" class="card-overlay">
+    <h1 class="overlay-title">Choose your guiding deity</h1>
+    <div class="card-container">
+      <button class="persona-card" data-deity="athena">
+        <h2>Athena</h2>
+        <p>Strategic wisdom, calm mentorship, razor-sharp insight.</p>
+      </button>
+      <button class="persona-card" data-deity="apollo">
+        <h2>Apollo</h2>
+        <p>Radiant inspiration, poetic flair, lyrical encouragement.</p>
+      </button>
+      <button class="persona-card" data-deity="ares">
+        <h2>Ares</h2>
+        <p>Fiery motivation, bold challenges, relentless drive.</p>
+      </button>
+    </div>
+  </section>
 
-  <textarea id="prompt" rows="15" cols="50" placeholder="Type your question..."></textarea><br>
-  <button id="send">Send</button>
+  <main id="main-interface" class="interface hidden">
+    <div id="selected-persona" aria-live="polite"></div>
+    <div id="response"></div>
+    <div class="prompt-area">
+      <textarea id="prompt" rows="8" cols="30" placeholder="Type your question..."></textarea>
+      <button id="send">Send</button>
+    </div>
+  </main>
 
   <!--<h2>Response:</h2>
   <div id="response"></div>
 -->
   <!-- Gemini send and recieve -->
   <script>
+    const overlay = document.getElementById("persona-overlay");
+    const mainInterface = document.getElementById("main-interface");
+    const selectedPersonaBanner = document.getElementById("selected-persona");
+    const cards = document.querySelectorAll(".persona-card");
+
+    let selectedPersona = null;
+
+    cards.forEach((card) => {
+      card.addEventListener("click", () => {
+        selectedPersona = card.dataset.deity;
+        const deityName = card.querySelector("h2").textContent;
+
+        selectedPersonaBanner.textContent = `You are now speaking with ${deityName}.`;
+
+        overlay.classList.add("fade-out");
+        setTimeout(() => {
+          overlay.style.display = "none";
+          mainInterface.classList.remove("hidden");
+          mainInterface.classList.add("fade-in");
+        }, 1000);
+      });
+    });
+
     document.getElementById("send").addEventListener("click", async () => {
-      const prompt = document.getElementById("prompt").value;
+      const prompt = document.getElementById("prompt").value.trim();
+      if (!prompt) {
+        return;
+      }
+
+      if (!selectedPersona) {
+        selectedPersonaBanner.textContent = "Select a deity to begin the conversation.";
+        return;
+      }
+
       const resp = await fetch("/prompt", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt })
+        body: JSON.stringify({ prompt, persona: selectedPersona })
       });
 
       const data = await resp.json();

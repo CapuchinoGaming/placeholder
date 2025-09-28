@@ -1,52 +1,212 @@
 body {
   margin: 0;
-  height: 100vh;             /* full screen height */
+  min-height: 100vh;
   display: flex;
-  justify-content: center;   /* horizontal center */
-  align-items: center;       /* vertical center */
-  background: #111;          /* optional background */
-}
-textarea {
-  position: fixed;          /* stays in place even when scrolling */
-  bottom: 20px;             /* distance from bottom edge */
-  left: 50%;                /* push to horizontal center */
-  transform: translateX(-50%); /* offset back by half width */
-
-  z-index: 2;
-  font-size: 16px;
-  padding: 10px;
-  border-radius: 10px;
-  resize: none;              /* stops manual resizing */
-}
-button {
-  z-index: 2;
+  align-items: center;
+  justify-content: center;
+  font-family: "Georgia", serif;
+  color: #f8f5f0;
+  background: #111;
 }
 
-
-
-
-/* Fullscreen overlay image */
-.overlay-image {
-  position: fixed;  /* lock to screen like video */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;       /* above video */
-}
-.overlay-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* fills screen */
-  opacity: 1;     /* adjust transparency so video is visible */
-}
-/* Fullscreen video background */
 #bg-video {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;  /* makes video fill screen without distortion */
-  z-index: -1;        /* push behind content */
+  object-fit: cover;
+  z-index: -2;
+}
+
+.overlay-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.overlay-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(6, 6, 10, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 4;
+  opacity: 1;
+  transition: opacity 0.9s ease;
+}
+
+.card-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 0 30px rgba(255, 204, 128, 0.65);
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  width: min(900px, 100%);
+}
+
+.persona-card {
+  background: linear-gradient(160deg, rgba(35, 30, 55, 0.95), rgba(15, 15, 25, 0.95));
+  border: 1px solid rgba(255, 215, 160, 0.55);
+  border-radius: 18px;
+  padding: 1.5rem;
+  width: clamp(220px, 28vw, 260px);
+  cursor: pointer;
+  color: inherit;
+  text-align: left;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.persona-card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.6rem;
+}
+
+.persona-card p {
+  margin: 0;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+.persona-card:hover,
+.persona-card:focus-visible {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 45px rgba(255, 196, 120, 0.35);
+  border-color: rgba(255, 225, 180, 0.85);
+  outline: none;
+}
+
+.interface {
+  position: relative;
+  z-index: 2;
+  width: min(680px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border-radius: 24px;
+  background: rgba(10, 10, 18, 0.78);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+
+.interface.fade-in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.interface.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#selected-persona {
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #f8d27b;
+  text-align: center;
+}
+
+#response {
+  min-height: 160px;
+  padding: 1.5rem;
+  background: rgba(18, 18, 28, 0.85);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  line-height: 1.6;
+  overflow-y: auto;
+  max-height: 320px;
+  font-size: 1rem;
+}
+
+.prompt-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 140px;
+  resize: vertical;
+  padding: 0.9rem 1.1rem;
+  font-size: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.55);
+  color: #f5f2ea;
+}
+
+textarea::placeholder {
+  color: rgba(245, 242, 234, 0.65);
+}
+
+button {
+  align-self: flex-end;
+  cursor: pointer;
+  padding: 0.65rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 215, 160, 0.7);
+  background: linear-gradient(120deg, rgba(255, 185, 100, 0.95), rgba(255, 120, 90, 0.95));
+  color: #2e0f08;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover,
+button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(255, 138, 89, 0.35);
+  outline: none;
+}
+
+@media (max-width: 768px) {
+  .card-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .persona-card {
+    width: 100%;
+  }
+
+  textarea {
+    min-height: 120px;
+  }
 }

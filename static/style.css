@@ -8,7 +8,7 @@ body {
 }
 textarea {
   position: fixed;          /* stays in place even when scrolling */
-  bottom: 20px;             /* distance from bottom edge */
+  bottom: 10px;             /* distance from bottom edge */
   left: 50%;                /* push to horizontal center */
   transform: translateX(-50%); /* offset back by half width */
 
@@ -19,7 +19,29 @@ textarea {
   resize: none;              /* stops manual resizing */
 }
 button {
+  position: fixed;          /* stays in place even when scrolling */
+  bottom: 25%;             /* distance from bottom edge */
+  left: 50%;                /* push to horizontal center */
+  transform: translateX(-50%); /* offset back by half width */
   z-index: 2;
+}
+#response {
+  position: fixed;        /* keep it visible */
+  top: 15%;              /* place near top */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;             /* shrink width so it doesn’t stretch too far */
+  max-height: 50vh;       /* limit height */
+  overflow-y: auto;       /* add scroll if it gets too long */
+
+  background: rgba(0,0,0,0.6);  /* semi-transparent background */
+  color: #fff;                  /* white text */
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 18px;
+  line-height: 1.5;
+  z-index: 1;                   /* above video background */
+  white-space: pre-wrap;         /* preserve line breaks */
 }
 
 

@@ -9,7 +9,6 @@ In the future, I would like to have the "paragraph" be part of Python instead of
         <title>Oracle - TTS Testing</title>
         <!-- <link rel="stylesheet" href="styleinfo.css"/> -->
     </head>
-    
     <body>
 
         <main>
@@ -20,6 +19,9 @@ In the future, I would like to have the "paragraph" be part of Python instead of
             <p>Genai should be able to turn the following paragraph into speech:</p>
             <p>---------------------------------------------------</p>
             <p>Roblox is love, Roblox is life</p>
+            <audio controls>
+                <source src="out.wav" type="audio/wav">
+            </audio>
         </main>
 
     </body>

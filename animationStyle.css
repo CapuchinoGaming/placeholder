@@ -1,30 +1,39 @@
-.typewriter {
-    /*SET UP*/
-    overflow: hidden;
-    border-right: 0.15em solid #ffffff; 
-    white-space: nowrap;
-    width: 0;
-
-    /*position*/
+/* Container */
+#output {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 2;
-
-    /*color and animation and font*/
     color: #ffffff;
-    animation: typing var(--duration) steps(var(--chars)) forwards,
-    caret 0.8s steps(1) infinite;
     font-family: 'greekFont';
+    font-size: 3em;
+    white-space: nowrap;
+    z-index: 2;
   }
-
-    /* Once typing finishes, remove caret */
-    .done {
-    border-right: 0;
-    width: auto;
-    }
-
+  
+  /* Blinking caret */
+  .caret {
+    display: inline-block;
+    width: 0.15em;
+    background-color: #ffffff;
+    margin-left: 2px;
+    animation: blink 0.8s steps(1) infinite;
+  }
+  
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+  
+  /* Fade out for old lines */
+  .fade-out {
+    animation: fadeout 1s forwards;
+  }
+  
+  @keyframes fadeout {
+    to { opacity: 0; }
+  }
+  
   /*font*/
   @font-face {
     font-family: 'greekFont';
@@ -32,14 +41,3 @@
     font-weight: normal;
     font-style: normal;
     }
-
-  /*Typing Animation*/
-  @keyframes typing {
-    to { width: calc(var(--chars) 1ch); }
-  }
-
-  /* cursor blink */
-  @keyframes blink {
-    from, to { border-color: transparent }
-    50% { border-color: #ffffff; }
-  }

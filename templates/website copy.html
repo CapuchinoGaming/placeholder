@@ -145,7 +145,11 @@
         });
 
         const data = await resp.json();
-        responseBox.innerHTML = data.result || data.error || "No response received.";
+        //responseBox.innerHTML = data.result || data.error || "No response received.";
+        const resultArray = (data.result || "").split(/[.,]\s*/).filter(Boolean);
+      console.log("Result array:", resultArray);
+
+      document.dispatchEvent(new CustomEvent("ResultReady", { detail: resultArray }));
 
 
       } catch (error) {

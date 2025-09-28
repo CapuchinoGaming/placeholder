@@ -1,3 +1,4 @@
+import traceback
 from flask import Flask, request, jsonify, render_template
 from google import genai
 import os
@@ -78,7 +79,7 @@ def prompt_gemini():
         import wave
 
         # Global variables
-        API_KEY = "AIzaSyCjLWCS3pluFJUJD4znbqCNFkX2O5l2QSU"
+        API_KEY = "AIzaSyCmr26qMYKYEOJxmyCRl3FtJjSQ6--frNg"
         TTS_MODEL_ID = "gemini-2.5-flash-preview-tts"
         MALE_VOICE = "charon"
         WOMAN_VOICE = "zephyr"
@@ -109,52 +110,31 @@ def prompt_gemini():
         for i, line in enumerate(text_list):
             print(f"Entered for loop for the {i}th time")
             
-            text_prompt = "I am the Oracle who tends the stage where sorrow becomes wisdom. I hold tragedies that leave embers of insight for those who listen. Steel your heart traveller, and when you are ready, bid me unveil the voices who wait beyond the curtain."
-            #text_prompt = prefix + line
+            text_prompt = prefix + line
+
+            text_prompt = "Greet a new seeker softly as Eurydice. Share the opening part of your story - your love for Orpheus and the underworld - in three or four sentences, and finish by asking if they would like you to continue the tale."
             
             # Call TTS model
-            print("joined prefix and line")
-            # tts_response = tts_client.models.generate_content(
-            #     model=TTS_MODEL_ID,
-            #     contents=text_prompt,
-            #     config=types.GenerateContentConfig(
-            #         response_modalities=["AUDIO"],
-            #         speech_config=types.SpeechConfig(
-            #             voice_config=types.VoiceConfig(
-            #                 prebuilt_voice_config=types.PrebuiltVoiceConfig(
-            #                     voice_name="kore",
-            #                 )
-            #             )
-            #         ),
-            #     ),
-            # )
-
-            # tts_response = tts_client.models.generate_content(
-            #     model=TTS_MODEL_ID,
-            #     contents=[types.Content(
-            #     role="user",
-            #     parts=[types.Part.from_text(text_prompt)]
-            # )],
-
-            tts_response = tts_client.models.generate_content(
-                model=TTS_MODEL_ID,
-                contents=[types.Content(
-                    role="user",
-                    parts=[types.Part.from_text(text_prompt)]
-                )],
-            config=types.GenerateContentConfig(
-                response_modalities=["AUDIO"],
-                speech_config=types.SpeechConfig(
-                    voice_config=types.VoiceConfig(
-                        prebuilt_voice_config=types.PrebuiltVoiceConfig(
-                            voice_name="kore",
-                        )
-                    )
-                ),
-                ),
-            )
-
-            print(f"> Gemini response {i} generated")
+            try:
+                tts_response = tts_client.models.generate_content(
+                    model=TTS_MODEL_ID,
+                    contents=text_prompt,
+                    config=types.GenerateContentConfig(
+                        response_modalities=["AUDIO"],
+                        speech_config=types.SpeechConfig(
+                            voice_config=types.VoiceConfig(
+                                prebuilt_voice_config=types.PrebuiltVoiceConfig(
+                                    voice_name="kore",
+                                )
+                            )
+                        ),
+                    ),
+                )
+                print(f"> Gemini response {i} generated")
+            except Exception as e:
+                print("❌ Error during TTS generate_content call:", str(e))
+                print(traceback.format_exc())
+                tts_response = None  # optional: so code after this can check if it's None
 
             # Extract audio data
             tts_data = tts_response.candidates[0].content.parts[0].inline_data.data

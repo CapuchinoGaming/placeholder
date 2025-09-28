@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Website</title>
+  <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+
+  <!-- Background Image and Video -->
+  <video autoplay muted loop id="bg-video">
+    <source src="static/HPS.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+  <!-- Overlay Image -->
+  <div class="overlay-image">
+    <img src="static/Greek Banner.png" alt="Overlay Image">
+  </div>
+
+
+  <textarea id="prompt" rows="15" cols="50" placeholder="Type your question..."></textarea><br>
+  <button id="send">Send</button>
+
+  <h2>Response:</h2>
+  <div id="response"></div>
+
+  <!-- Gemini send and recieve -->
+  <script>
+    document.getElementById("send").addEventListener("click", async () => {
+      const prompt = document.getElementById("prompt").value;
+      const resp = await fetch("/prompt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt })
+      });
+
+      const data = await resp.json();
+      document.getElementById("response").textContent = data.result || data.error;
+    });
+  </script>
+
+</body>
+</html>

@@ -29,23 +29,25 @@ def prompt_gemini():
         text = response.candidates[0].content.parts[0].text
 
 # -------------------------------------------------- Start of Audio section --------------------------------------------------
-        
+        # Import libraries related to audio
         from google.genai import types
+        import os, subprocess, platform, time
         import wave
 
+        # Global variables
         API_KEY = "AIzaSyCjLWCS3pluFJUJD4znbqCNFkX2O5l2QSU"
         TTS_MODEL_ID = "gemini-2.5-flash-preview-tts"
         MALE_VOICE = "charon"
         WOMAN_VOICE = "callirrhoe"
 
-        # Your variables
+        # The "text" variable should be provided by Joshuan's Gemini
         prefix = "Say cheerfully: "
         text = "This is the first sentence. This is the other sentence. This is the third sentence."
 
         # Split into sentences, strip whitespace, and remove empty entries
         text_list = [sentence.strip() + "." for sentence in text.split(".") if sentence.strip()]
 
-        # Only run this block for Gemini Developer API
+        # Create a Gemini client for TTS (Text to Speech)
         tts_client = genai.Client(api_key=API_KEY)
         print("> Gemini client started")
 
@@ -89,10 +91,9 @@ def prompt_gemini():
             print(f"> Audio saved into {file_name}")
 
         # --- Play out.wav from Python (no PHP) ---
-        import sys, os, subprocess, platform, time
-
         wav_path = os.path.abspath("out.wav")
 
+        # This function takes an audio file, then plays it
         def try_platform_player(filename):
             print("> Running try_platform_player()")
             try:
